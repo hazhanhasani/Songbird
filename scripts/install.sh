@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# songbird-deploy-version: 0.13.1
+# songbird-deploy-version: 0.13.2
 
 set -uo pipefail
 
@@ -44,7 +44,7 @@ APP_NAME="songbird"
 INSTALL_DIR="/opt/songbird"
 LOG_FILE="/opt/songbird/logs/install.log"
 DATA_COMMAND_LAUNCHER="${DATA_COMMAND_LAUNCHER:-${INSTALL_DIR}/scripts/run-data-command.sh}"
-REPO_URL="${REPO_URL:-https://github.com/bllackbull/Songbird.git}"
+REPO_URL="${REPO_URL:-https://github.com/hazhanhasani/Songbird.git}"
 SERVICE_USER="songbird"
 SERVICE_GROUP="songbird"
 SERVICE_NAME="songbird"
@@ -67,14 +67,14 @@ DEFAULT_SIGN_UP="true"
 DEFAULT_CHAT_VOICE_WAVEFORM_MAX_DECODE_MB="5"
 DEFAULT_CHAT_VOICE_WAVEFORM_MAX_DECODE_SECONDS="480"
 NODE_MAJOR="24"
-SCRIPT_REMOTE_URL="${SCRIPT_REMOTE_URL:-https://raw.githubusercontent.com/bllackbull/Songbird/main/scripts/install.sh}"
+SCRIPT_REMOTE_URL="${SCRIPT_REMOTE_URL:-https://raw.githubusercontent.com/hazhanhasani/Songbird/main/scripts/install.sh}"
 LOG_LINES="${LOG_LINES:-100}"
 CERT_INSTALL_DIR="/etc/ssl/songbird"
 ACME_WEBROOT="/var/lib/songbird/certbot"
 LEGO_STATE_DIR="/var/lib/songbird/lego"
 LEGO_BIN="/usr/local/bin/lego"
 GLOBAL_COMMAND_PATH="/usr/local/bin/songbird-deploy"
-SONGBIRD_SOCIAL_GITHUB="https://github.com/bllackbull/Songbird"
+SONGBIRD_SOCIAL_GITHUB="https://github.com/hazhanhasani/Songbird"
 SONGBIRD_SOCIAL_TELEGRAM="https://t.me/songbirdapp"
 SONGBIRD_SOCIAL_WEBSITE="https://chat.songbird.website/invite/songbird"
 SONGBIRD_NOWPAYMENTS="https://nowpayments.io/donation/blackbull"
@@ -1581,6 +1581,7 @@ clone_repo() {
 
   if run_as_root test -d "$INSTALL_DIR/.git"; then
     log "Repository exists at ${INSTALL_DIR}. Updating source..."
+    migrate_upstream_origin_to_fork || return 1
     run_in_install_dir "git fetch --all --prune" || return 1
     run_in_install_dir "git checkout main" || return 1
     run_in_install_dir "git pull --ff-only origin main" || return 1
@@ -1598,6 +1599,19 @@ clone_repo() {
 
   log "Cloning Songbird repository..."
   run_silent run_as_root git clone "$REPO_URL" "$INSTALL_DIR" || return 1
+}
+
+# Change only the original project's remote; never overwrite custom remotes.
+migrate_upstream_origin_to_fork() {
+  local current_origin=""
+  current_origin="$(run_as_root_output git -C "$INSTALL_DIR" remote get-url origin 2>/dev/null | tr -d '\r\n')" || return 1
+  case "$current_origin" in
+    https://github.com/bllackbull/Songbird|https://github.com/bllackbull/Songbird.git|https://github.com/bllackbull/songbird|https://github.com/bllackbull/songbird.git|git@github.com:bllackbull/Songbird.git|git@github.com:bllackbull/songbird.git)
+      log "Switching installed Git origin to the hazhanhasani/Songbird fork..."
+      run_as_root git -C "$INSTALL_DIR" remote set-url origin "$REPO_URL" || return 1
+      ;;
+  esac
+  return 0
 }
 
 prepare_install_dir_for_offline() {
@@ -3546,6 +3560,9 @@ update_songbird() {
     press_enter_to_continue
     return 0
   fi
+
+  # Keep existing installations on this fork instead of silently updating upstream.
+  migrate_upstream_origin_to_fork || return 1
 
   # Fetch latest from remote
   log "Checking for updates..."

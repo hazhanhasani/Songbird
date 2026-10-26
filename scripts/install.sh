@@ -1604,7 +1604,8 @@ clone_repo() {
 # Change only the original project's remote; never overwrite custom remotes.
 migrate_upstream_origin_to_fork() {
   local current_origin=""
-  current_origin="$(run_as_root_output git -C "$INSTALL_DIR" remote get-url origin 2>/dev/null | tr -d '\r\n')" || return 1
+  # Missing origin is handled by the subsequent Git fetch; do not interrupt mocked or offline setups.
+  current_origin="$(run_as_root_output git -C "$INSTALL_DIR" remote get-url origin 2>/dev/null | tr -d '\r\n')" || return 0
   case "$current_origin" in
     https://github.com/bllackbull/Songbird|https://github.com/bllackbull/Songbird.git|https://github.com/bllackbull/songbird|https://github.com/bllackbull/songbird.git|git@github.com:bllackbull/Songbird.git|git@github.com:bllackbull/songbird.git)
       log "Switching installed Git origin to the hazhanhasani/Songbird fork..."

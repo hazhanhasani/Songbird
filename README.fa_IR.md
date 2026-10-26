@@ -4,13 +4,13 @@
 
 # <img src="./client/public/songbird-logo.svg" alt="Songbird"> Songbird
 
-[![Version](https://img.shields.io/github/v/release/bllackbull/Songbird?label=version&color=blue)](https://github.com/bllackbull/Songbird/releases)
+[![Version](https://img.shields.io/github/v/release/bllackbull/Songbird?label=version&color=blue)](https://github.com/hazhanhasani/Songbird/releases)
 ![Build](https://img.shields.io/github/actions/workflow/status/bllackbull/Songbird/build.yml)
-[![Last commit](https://img.shields.io/github/last-commit/bllackbull/Songbird)](https://github.com/bllackbull/Songbird/commits/main/)
+[![Last commit](https://img.shields.io/github/last-commit/bllackbull/Songbird)](https://github.com/hazhanhasani/Songbird/commits/main/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/bllackbull/Songbird)
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy?repo=https://github.com/bllackbull/Songbird)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/hazhanhasani/Songbird)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy?repo=https://github.com/hazhanhasani/Songbird)
 
 **پلتفرم پیام‌رسان امن و سبک برای میزبانی شخصی**
 
@@ -34,7 +34,7 @@
 ساده‌ترین روش نصب Songbird، اسکریپت نصب آسان است. روی یک سرور Ubuntu (نسخه 22.04+) با دسترسی `sudo` این دستور را اجرا کنید:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/bllackbull/Songbird/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/hazhanhasani/Songbird/main/scripts/install.sh | bash
 ```
 
 این اسکریپت پیش‌نیازها را نصب می‌کند، برنامه را build می‌کند، Nginx را کانفیگ می‌کند و می‌تواند SSL را هم برایتان راه‌اندازی کند. بعد از نصب، هر زمان با این دستور دوباره به آن دسترسی دارید:
@@ -69,6 +69,11 @@ songbird-deploy
 - [دستورات دیتابیس](https://docs.songbird.website/fa/Database-Commands)
 - [عیب‌یابی](https://docs.songbird.website/fa/Troubleshooting)
 
+
+## اپ اندروید اختصاصی فورک
+
+کد اپ اندروید در پوشه [android/](android/) قرار دارد. نسخه‌های APK امضاشده از بخش Releases همین ریپازیتوری و با تگ `android-vX.Y.Z` منتشر می‌شوند. توضیحات نصب و کلید امضا در [راهنمای اندروید](android/README.md) موجود است.
+
 ## نویسنده
 
 - سازنده: [@bllackbull](https://github.com/bllackbull)
@@ -77,7 +82,7 @@ songbird-deploy
 ## مشارکت
 
 - از تقاضای مشارکت، استقبال میشود.
-- اگر قصد مشارکت دارید، اول در این آدرس issue باز کنید: `https://github.com/bllackbull/Songbird/issues`
+- اگر قصد مشارکت دارید، اول در این آدرس issue باز کنید: `https://github.com/hazhanhasani/Songbird/issues`
 - برای هماهنگی مستقیم، قبل از باز کردن PR با [@bllackbull](https://github.com/bllackbull) در GitHub در ارتباط باشید.
 - برای اطلاعات بیشتر، راهنمای [Contributing](/CONTRIBUTING.md) را ببینید.
 

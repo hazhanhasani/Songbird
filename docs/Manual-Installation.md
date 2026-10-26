@@ -47,7 +47,7 @@ volta install node@24.11.1 npm@11.6.4
 ```bash
 sudo mkdir -p /opt/songbird
 cd /opt/songbird
-git clone https://github.com/bllackbull/Songbird.git .
+git clone https://github.com/hazhanhasani/Songbird.git .
 ```
 
 :::info

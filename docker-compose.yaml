@@ -1,11 +1,10 @@
 services:
   songbird:
-    # Use the pre-built image from Docker Hub (recommended):
-    image: ${SONGBIRD_IMAGE:-bllackbull/songbird:latest}
-    # Or build locally from source (uncomment and remove the image line above):
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
+    # Always build the checked-out fork; never silently run the upstream image.
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${SONGBIRD_IMAGE:-songbird-fork:local}
     container_name: songbird
     restart: unless-stopped
     expose:
@@ -65,7 +64,10 @@ volumes:
 
 # Optional Standalone Media Worker container service (uncomment to run worker in a separate container):
 #  media-worker:
-#    image: ${SONGBIRD_WORKER_IMAGE:-bllackbull/songbird-worker:latest}
+#    build:
+#      context: ./worker
+#      dockerfile: Dockerfile
+#    image: ${SONGBIRD_WORKER_IMAGE:-songbird-fork-worker:local}
 #    container_name: songbird-media-worker
 #    restart: unless-stopped
 #    environment:

@@ -59,7 +59,7 @@ docker run hello-world
 ```bash
 sudo mkdir -p /opt/songbird
 cd /opt/songbird
-git clone https://github.com/bllackbull/Songbird.git .
+git clone https://github.com/hazhanhasani/Songbird.git .
 ```
 
 ## 3. Configure environment
@@ -76,7 +76,7 @@ Songbird defaults to SQLite (`DB_CLIENT=sqlite3`). To use PostgreSQL instead, ed
 :::
 
 :::info Media Worker Container
-Songbird automatically spawns and manages a local Media Worker child process inside the all-in-one container (`bllackbull/songbird:latest`) by default. For distributed or high-load setups, you can offload media processing to the dedicated standalone image (`bllackbull/songbird-worker:latest`) or uncomment the optional `media-worker` service in `docker-compose.yaml`. See [Media Worker](./Media-Worker.md) for details.
+The fork builds the all-in-one container locally from its own Dockerfile and runs the local Media Worker by default. For distributed or high-load setups, you can offload media processing by uncommenting the optional `media-worker` service and building the worker from the fork in `docker-compose.yaml`. See [Media Worker](./Media-Worker.md) for details.
 :::
 
 ## 4. Set up TLS certificates
@@ -90,14 +90,14 @@ See [SSL Certificates](./SSL-Certificates.md) for the available options.
 
 ## 5. Build and start
 
-Pull the pre-built image and start the containers:
+Build the currently checked-out fork source and start the containers:
 
 ```bash
 cd /opt/songbird
-docker compose up -d
+docker compose up -d --build
 ```
 
-The image is pulled automatically from Docker Hub on first run. If you prefer to build from source instead, edit `docker-compose.yaml` and swap the `image:` line for the `build:` block (instructions are in the comments).
+This fork intentionally builds its own application image. After `git pull`, rerun `docker compose up -d --build` to apply updates.
 
 The nginx container waits for the app to pass its health check before it starts accepting traffic. This prevents 502 errors during the brief startup window while migrations run.
 

@@ -1,10 +1,8 @@
 package com.hazhanhasani.songbird
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.provider.Settings
 import androidx.core.content.FileProvider
 import android.app.Activity
@@ -57,9 +55,8 @@ object AndroidUpdates {
                 val release = releases.getJSONObject(index)
                 if (release.optBoolean("draft") || release.optBoolean("prerelease")) continue
                 val tag = release.optString("tag_name")
-                val version = versionPattern.matchEntire(tag)?.groupValues?.get(1)
-                    ?.let { "$it.${versionPattern.matchEntire(tag)!!.groupValues[2]}.${versionPattern.matchEntire(tag)!!.groupValues[3]}" }
-                    ?: continue
+                val match = versionPattern.matchEntire(tag) ?: continue
+                val version = match.groupValues.drop(1).joinToString(".")
                 if (compareVersions(version, currentVersion) <= 0) continue
                 val assets = release.optJSONArray("assets") ?: continue
                 val apkName = "songbird-android-v$version.apk"

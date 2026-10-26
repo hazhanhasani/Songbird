@@ -81,7 +81,7 @@ fun WelcomeScreen(
                     )
                 }
                 Text(
-                    "دنیای گفتگو،\\nکاملاً در اختیار تو.",
+                    "دنیای گفتگو،\nکاملاً در اختیار تو.",
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontSize = 34.sp,
                         lineHeight = 47.sp,
